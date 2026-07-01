@@ -3,83 +3,99 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Elysium Java — Правила сервера</title>
+  <title>Elysium — Правила сервера</title>
   <style>
+
     :root {
-      --bg: #07070d;
-      --panel: rgba(12, 12, 20, .76);
-      --panel2: rgba(255, 255, 255, .065);
+      --panel: rgba(12, 12, 20, .78);
       --text: #fff7ff;
-      --muted: #c8bdcf;
-      --line: rgba(255,255,255,.14);
+      --muted: #d1c8d8;
+      --line: rgba(255,255,255,.15);
       --pink: #ff4fa3;
       --violet: #805dff;
       --orange: #ff9d42;
       --red: #ff5364;
-      --yellow: #ffd166;
       --blue: #58a6ff;
       --green: #4cff9b;
-      --shadow: 0 24px 90px rgba(0,0,0,.55);
+      --shadow: 0 24px 90px rgba(0,0,0,.58);
     }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Inter, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at 14% 0%, rgba(255,79,163,.28), transparent 31%),
-        radial-gradient(circle at 86% 8%, rgba(255,157,66,.24), transparent 34%),
-        linear-gradient(180deg, #19111f 0%, #07070d 56%, #030306 100%);
       min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(255,79,163,.24), transparent 31%),
+        radial-gradient(circle at 86% 8%, rgba(255,157,66,.22), transparent 34%),
+        linear-gradient(180deg, #19111f 0%, #07070d 56%, #030306 100%);
       overflow-x: hidden;
     }
+
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.84)),
+        linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.82)),
         url("https://cdn.easydonate.ru/images/backgrounds/19/5e/195ec1b04454faf4916c1838ca1c6426237f6c20cce588fc071e16244bfff39a.png");
       background-size: cover;
       background-position: center;
-      opacity: .52;
+      opacity: .58;
       z-index: -3;
+      transform: scale(1.02);
     }
+
     body::after {
       content: "";
       position: fixed;
       inset: 0;
       background-image: radial-gradient(circle, rgba(255,255,255,.78) 1px, transparent 1.6px);
       background-size: 42px 42px;
-      opacity: .16;
+      opacity: .14;
       pointer-events: none;
       z-index: -2;
     }
+
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       border-bottom: 1px solid var(--line);
       background: rgba(6,6,12,.62);
       backdrop-filter: blur(18px);
     }
+
     .nav {
-      max-width: 1200px;
+      max-width: 1220px;
       margin: 0 auto;
       padding: 14px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      justify-content: center;
     }
+
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: .2px;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+      border: 0;
+      font: inherit;
     }
+
     .logo {
       width: 44px;
       height: 44px;
@@ -90,6 +106,7 @@
       box-shadow: 0 0 30px rgba(255,79,163,.35);
       font-size: 23px;
     }
+
     .brand small {
       display: block;
       color: var(--muted);
@@ -97,98 +114,222 @@
       font-size: 12px;
       margin-top: 2px;
     }
-    .nav a {
+
+    button {
+      border: 0;
+      font: inherit;
       color: var(--text);
-      text-decoration: none;
-      padding: 9px 13px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      font-size: 14px;
+      cursor: pointer;
     }
-    .nav a:hover {
-      border-color: rgba(255,79,163,.8);
-      background: rgba(255,79,163,.12);
+
+    .view {
+      display: none;
+      animation: viewIn .42s ease both;
     }
-    .links {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+
+    .view.active {
+      display: block;
     }
-    .hero {
-      max-width: 1200px;
+
+    @keyframes viewIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    .home {
+      min-height: calc(100vh - 74px);
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 82px 20px 42px;
+      padding: 86px 20px 80px;
       display: grid;
-      grid-template-columns: 1.12fr .88fr;
-      gap: 26px;
-      align-items: center;
+      place-items: center;
     }
+
+    .home-inner {
+      width: 100%;
+      text-align: center;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
+      background: rgba(255,255,255,.09);
       padding: 8px 12px;
       border-radius: 999px;
       color: #ffe4f3;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
     }
+
     h1 {
       margin: 0;
-      font-size: clamp(42px, 6.4vw, 88px);
-      line-height: .94;
-      letter-spacing: -2.6px;
+      font-size: clamp(44px, 7vw, 96px);
+      line-height: .92;
+      letter-spacing: -3px;
+      text-shadow: 0 20px 75px rgba(0,0,0,.65);
     }
+
     h1 span {
       background: linear-gradient(90deg, var(--pink), #fff0bd, var(--orange));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
+
     .lead {
-      margin: 23px 0 0;
-      max-width: 720px;
+      margin: 24px auto 0;
+      max-width: 780px;
       color: var(--muted);
       font-size: 18px;
-      line-height: 1.68;
+      line-height: 1.72;
+      text-shadow: 0 8px 30px rgba(0,0,0,.6);
     }
+
+    .choice-grid {
+      margin-top: 38px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      text-align: left;
+    }
+
+    .choice {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      padding: 26px;
+      min-height: 250px;
+      transition: .28s ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,.32);
+    }
+
+    .choice .icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid var(--line);
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+
+    .choice h2 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -1px;
+    }
+
+    .choice p {
+      margin: 12px 0 22px;
+      color: var(--muted);
+      line-height: 1.62;
+    }
+
+    .choice-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      color: white;
+      font-weight: 850;
+      box-shadow: 0 14px 35px rgba(255,79,163,.22);
+      transition: .22s ease;
+    }
+
+    .choice-btn:hover {
+      transform: translateX(3px);
+    }
+
+    .bedrock .choice-btn {
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .rules-page {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 52px 20px 86px;
+    }
+
+    .page-hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 26px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(42px, 6vw, 82px);
+    }
+
+    .hero-card,
+    .rule-group,
+    .important,
+    .footer {
+      backdrop-filter: blur(16px);
+    }
+
     .hero-card {
       border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.105), rgba(255,255,255,.04));
+      background: linear-gradient(180deg, rgba(255,255,255,.115), rgba(255,255,255,.045));
       border-radius: 28px;
       padding: 24px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
     }
+
     .hero-card h2 {
       margin: 0 0 14px;
       font-size: 21px;
     }
+
     .stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 15px;
     }
+
     .stat {
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 18px;
       background: rgba(0,0,0,.28);
     }
+
     .stat strong {
       display: block;
-      font-size: 26px;
+      font-size: 24px;
       margin-bottom: 4px;
     }
+
     .stat span {
       color: var(--muted);
       font-size: 13px;
       line-height: 1.35;
     }
+
     .notice {
       margin-top: 14px;
       padding: 15px 16px;
@@ -199,68 +340,85 @@
       line-height: 1.52;
       font-size: 14px;
     }
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 18px 20px 86px;
-    }
-    .intro {
+
+    .back-row {
       display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 20px;
-      margin: 22px 0 18px;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 20px;
     }
-    .intro h2 {
-      margin: 0;
-      font-size: 34px;
-      letter-spacing: -.8px;
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--line);
+      color: white;
+      font-weight: 800;
+      transition: .22s ease;
     }
-    .intro p {
-      margin: 0;
-      max-width: 580px;
-      text-align: right;
-      color: var(--muted);
-      line-height: 1.55;
+
+    .back-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,79,163,.75);
+      background: rgba(255,79,163,.13);
     }
+
     .rule-group {
       margin-top: 20px;
       border: 1px solid var(--line);
       border-radius: 30px;
       overflow: hidden;
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 22px 75px rgba(0,0,0,.32);
-      backdrop-filter: blur(14px);
+      background: rgba(255,255,255,.045);
+      box-shadow: 0 22px 75px rgba(0,0,0,.34);
     }
+
     .group-head {
       padding: 20px 22px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(90deg, rgba(0,0,0,.34), rgba(255,79,163,.08));
     }
+
+    #bedrockView .group-head {
+      background: linear-gradient(90deg, rgba(0,0,0,.34), rgba(88,166,255,.10));
+    }
+
     .group-kicker {
       color: #ffd3e9;
-      font-weight: 800;
+      font-weight: 850;
       font-size: 13px;
       letter-spacing: .4px;
       text-transform: uppercase;
       margin-bottom: 7px;
     }
+
+    #bedrockView .group-kicker {
+      color: #d8fff0;
+    }
+
     .group-head h2 {
       margin: 0;
       font-size: 24px;
       letter-spacing: -.4px;
     }
+
     .group-head p {
       color: var(--muted);
       margin: 8px 0 0;
       line-height: 1.45;
     }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       padding: 16px;
     }
+
     .rule-card {
       border: 1px solid var(--line);
       border-radius: 24px;
@@ -270,6 +428,7 @@
       display: flex;
       flex-direction: column;
     }
+
     .rule-top {
       padding: 18px 18px 14px;
       display: flex;
@@ -278,6 +437,7 @@
       border-bottom: 1px solid var(--line);
       background: rgba(255,255,255,.045);
     }
+
     .rule-num {
       min-width: 56px;
       height: 38px;
@@ -289,14 +449,38 @@
       background: linear-gradient(135deg, var(--pink), var(--violet));
       box-shadow: 0 12px 28px rgba(255,79,163,.22);
     }
-    .rule-card.danger .rule-num { background: linear-gradient(135deg, var(--red), #9f1dff); }
-    .rule-card.jail .rule-num { background: linear-gradient(135deg, var(--orange), var(--pink)); }
-    .rule-card.info .rule-num { background: linear-gradient(135deg, var(--blue), var(--violet)); }
+
+    .rule-card.ban .rule-num {
+      background: linear-gradient(135deg, var(--red), #9f1dff);
+    }
+
+    .rule-card.jail .rule-num {
+      background: linear-gradient(135deg, var(--orange), var(--pink));
+    }
+
+    .rule-card.info .rule-num {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+    }
+
+    #bedrockView .rule-num {
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 28px rgba(88,166,255,.18);
+    }
+
+    #bedrockView .rule-card.ban .rule-num {
+      background: linear-gradient(135deg, var(--red), var(--blue));
+    }
+
+    #bedrockView .rule-card.jail .rule-num {
+      background: linear-gradient(135deg, var(--orange), var(--green));
+    }
+
     .rule-top h3 {
       margin: 0;
       font-size: 18px;
       line-height: 1.22;
     }
+
     .rule-card p {
       margin: 0;
       padding: 17px 18px 0;
@@ -304,6 +488,7 @@
       line-height: 1.58;
       flex: 1;
     }
+
     .punishment {
       margin: 16px 18px 18px;
       padding: 10px 12px;
@@ -311,13 +496,29 @@
       background: rgba(255,83,100,.12);
       border: 1px solid rgba(255,83,100,.24);
       color: #ffe8ed;
-      font-weight: 750;
+      font-weight: 760;
       line-height: 1.4;
       font-size: 14px;
     }
-    .rule-card.warn .punishment { background: rgba(255,209,102,.11); border-color: rgba(255,209,102,.24); color: #fff2ca; }
-    .rule-card.jail .punishment { background: rgba(255,157,66,.11); border-color: rgba(255,157,66,.25); color: #ffedd8; }
-    .rule-card.info .punishment { background: rgba(88,166,255,.11); border-color: rgba(88,166,255,.25); color: #e5f1ff; }
+
+    .rule-card.warn .punishment {
+      background: rgba(255,209,102,.11);
+      border-color: rgba(255,209,102,.24);
+      color: #fff2ca;
+    }
+
+    .rule-card.jail .punishment {
+      background: rgba(255,157,66,.11);
+      border-color: rgba(255,157,66,.25);
+      color: #ffedd8;
+    }
+
+    .rule-card.info .punishment {
+      background: rgba(88,166,255,.11);
+      border-color: rgba(88,166,255,.25);
+      color: #e5f1ff;
+    }
+
     .important {
       margin-top: 24px;
       border: 1px solid rgba(255,79,163,.34);
@@ -326,15 +527,23 @@
       padding: 24px;
       box-shadow: 0 24px 80px rgba(0,0,0,.36);
     }
+
+    #bedrockView .important {
+      border-color: rgba(88,166,255,.34);
+      background: linear-gradient(135deg, rgba(76,255,155,.14), rgba(88,166,255,.13));
+    }
+
     .important h2 {
       margin: 0 0 10px;
       font-size: 28px;
     }
+
     .important p {
       margin: 0;
       color: #fff0f8;
       line-height: 1.62;
     }
+
     .footer {
       margin-top: 26px;
       text-align: center;
@@ -345,369 +554,734 @@
       padding: 24px;
       line-height: 1.7;
     }
-    .footer b { color: white; }
-    @media (max-width: 880px) {
-      .hero { grid-template-columns: 1fr; padding-top: 52px; }
-      .cards { grid-template-columns: 1fr; }
-      .intro { display: block; }
-      .intro p { text-align: left; margin-top: 8px; }
-      .links { display: none; }
+
+    .footer b {
+      color: white;
     }
+
+    @media (max-width: 900px) {
+      .choice-grid,
+      .page-hero,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .home {
+        padding-top: 58px;
+      }
+
+      .rules-page {
+        padding-top: 34px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header class="topbar">
     <nav class="nav">
-      <div class="brand">
+      <button class="brand" type="button" data-target="homeView">
         <div class="logo">⚔️</div>
         <div>
-          Elysium Java
-          <small>Minecraft Server Rules</small>
+          Elysium
+          <small>Java / Bedrock Rules</small>
         </div>
-      </div>
-      <div class="links">
-        <a href="#rules">Правила</a>
-        <a href="#important">Важно</a>
-      </div>
+      </button>
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
-      <div class="badge">📃 Официальный свод правил</div>
-      <h1><span>Elysium Java</span><br>Правила сервера</h1>
-      <p class="lead">
-        Добро пожаловать на Elysium Java. Эти правила действуют для всех игроков
-        с момента регистрации на сервере. Играйте честно, уважайте других игроков
-        и не создавайте проблем проекту.
-      </p>
-    </div>
-    <aside class="hero-card">
-      <h2>Коротко о главном</h2>
-      <div class="stats">
-        <div class="stat"><strong>Честная игра</strong><span>без читов, X-Ray, макросов и дюпов</span></div>
-        <div class="stat"><strong>TPS</strong><span>стабильность сервера — общая ответственность</span></div>
-        <div class="stat"><strong>ЛС</strong><span>спорные ситуации лучше решать с администрацией</span></div>
-        <div class="stat"><strong>Ban</strong><span>тяжёлые нарушения караются блокировкой</span></div>
-      </div>
-      <div class="notice">
-        Администрация вправе принимать решения исходя из ситуации, даже если нарушение
-        не описано в правилах напрямую.
-      </div>
-    </aside>
-  </section>
+  <main id="homeView" class="view active">
+    <section class="home">
+      <div class="home-inner">
+        <div class="badge">📃 Официальные правила сервера</div>
+        <h1><span>Elysium</span><br>Выберите раздел</h1>
+        <p class="lead">
+          Правила разделены на два направления: Java и Bedrock.
+          Выберите нужную версию сервера, чтобы открыть полный свод правил.
+        </p>
 
-  <main class="wrap" id="rules">
-    <div class="intro">
-      <h2>Свод правил</h2>
-      <p>Правила оформлены карточками: номер пункта, понятное описание и наказание.</p>
-    </div>
+        <div class="choice-grid">
+          <article class="choice java">
+            <div class="icon">☕</div>
+            <h2>Elysium Java</h2>
+            <p>
+              Правила Java-направления: честная игра, чат, администрация,
+              TPS, лаг-машины, баги и дюпы.
+            </p>
+            <button class="choice-btn" type="button" data-target="javaView">
+              Открыть Java правила →
+            </button>
+          </article>
 
-    
-    <section class="rule-group">
-      <div class="group-head">
-        <div>
-          <div class="group-kicker">🛡️ Elysium Java</div>
-          <h2>Свод №1 — Безопасность и честная игра</h2>
-          <p>Аккаунты, читы, вмешательство в игру и внешний вид.</p>
+          <article class="choice bedrock">
+            <div class="icon">🟩</div>
+            <h2>Elysium Bedrock</h2>
+            <p>
+              Правила Bedrock-направления: IP/CID, команды, TPA/TP,
+              чат, вред серверу и общие положения.
+            </p>
+            <button class="choice-btn" type="button" data-target="bedrockView">
+              Открыть Bedrock правила →
+            </button>
+          </article>
         </div>
       </div>
-      <div class="cards">
-        
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">1.0</div>
-        <h3>Скины 18+</h3>
-      </div>
-      <p>Запрещено использование скинов, содержащих материалы 18+.</p>
-      <div class="punishment"><span>➤</span> Кик → Тюрьма на 30 минут.</div>
-    </article>
-    
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">1.1</div>
-        <h3>Взлом и кража данных</h3>
-      </div>
-      <p>Запрещены попытки взлома аккаунтов, кража данных и обман игроков с целью получения доступа к их учётным записям.</p>
-      <div class="punishment"><span>➤</span> Перманентная блокировка, в тяжёлых случаях — по IP + снятие привилегий.</div>
-    </article>
-    
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">1.2</div>
-        <h3>Читы и стороннее ПО</h3>
-      </div>
-      <p>Запрещено использование стороннего ПО: читов, макросов, автокликеров, X-Ray и любых программ, изменяющих игровой процесс.</p>
-      <div class="punishment"><span>➤</span> Блокировка по IP навсегда + снятие привилегий.</div>
-    </article>
-    
-    <article class="rule-card jail">
-      <div class="rule-top">
-        <div class="rule-num">1.3</div>
-        <h3>Помеха игровому процессу</h3>
-      </div>
-      <p>Запрещено намеренно мешать игровому процессу других игроков.</p>
-      <div class="punishment"><span>➤</span> Тюрьма до 50 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">1.4</div>
-        <h3>Нецензурные постройки и порча биомов</h3>
-      </div>
-      <p>Запрещено строительство нецензурных сооружений и намеренная порча биомов.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 15 минут → Блокировка на 1 день.</div>
-    </article>
-    
-      </div>
     </section>
-    
-    <section class="rule-group">
-      <div class="group-head">
-        <div>
-          <div class="group-kicker">💬 Elysium Java</div>
-          <h2>Свод №2 — Общение и поведение</h2>
-          <p>Чат, оскорбления, провокации и отношение к участникам.</p>
-        </div>
-      </div>
-      <div class="cards">
-        
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">1.5</div>
-        <h3>Передача аккаунтов</h3>
-      </div>
-      <p>Запрещена передача, продажа, обмен или розыгрыш игровых аккаунтов.</p>
-      <div class="punishment"><span>➤</span> Блокировка, в тяжёлых случаях — по IP навсегда + снятие привилегий.</div>
-    </article>
-    
-    <article class="rule-card jail">
-      <div class="rule-top">
-        <div class="rule-num">1.6</div>
-        <h3>Оскорбления, угрозы, флуд и спам</h3>
-      </div>
-      <p>Запрещены оскорбления, унижения, угрозы, флуд и спам.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 20 минут.</div>
-    </article>
-    
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">1.7</div>
-        <h3>Оскорбление родственников</h3>
-      </div>
-      <p>Запрещены оскорбления родственников игроков.</p>
-      <div class="punishment"><span>➤</span> Блокировка на 3 дня.</div>
-    </article>
-    
-    <article class="rule-card jail">
-      <div class="rule-top">
-        <div class="rule-num">1.8</div>
-        <h3>Оскорбление администрации</h3>
-      </div>
-      <p>Запрещено оскорбительное отношение к Администрации сервера.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 15 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">1.9</div>
-        <h3>Провокации против проекта</h3>
-      </div>
-      <p>Запрещены намеренные провокации и деструктивные высказывания в адрес проекта.</p>
-      <div class="punishment"><span>➤</span> Кик → Блокировка на 1 день.</div>
-    </article>
-    
-      </div>
-    </section>
-    
-    <section class="rule-group">
-      <div class="group-head">
-        <div>
-          <div class="group-kicker">⚖️ Elysium Java</div>
-          <h2>Свод №3 — Реклама, администрация и споры</h2>
-          <p>Реклама, требования администрации, спорные ситуации и выдача себя за персонал.</p>
-        </div>
-      </div>
-      <div class="cards">
-        
-    <article class="rule-card jail">
-      <div class="rule-top">
-        <div class="rule-num">2.0</div>
-        <h3>Реклама</h3>
-      </div>
-      <p>Запрещена реклама сторонних проектов, ресурсов и серверов Minecraft.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 60 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.1</div>
-        <h3>Игнорирование администрации</h3>
-      </div>
-      <p>Запрещено игнорирование требований Администрации.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 10 минут → Кик → Тюрьма на 60 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.2</div>
-        <h3>Провокация наказания</h3>
-      </div>
-      <p>Запрещено намеренно провоцировать выдачу наказания.</p>
-      <div class="punishment"><span>➤</span> Кик → Блокировка на 720 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.3</div>
-        <h3>Выпрашивание</h3>
-      </div>
-      <p>Запрещено выпрашивание доната, материальных ценностей или помощи у Администрации.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 10 минут → Кик → Блокировка на 60 минут.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.4</div>
-        <h3>Обсуждение действий администрации</h3>
-      </div>
-      <p>Публичное обсуждение действий Администрации допускается только в предусмотренных разделах проекта.</p>
-      <div class="punishment"><span>➤</span> Кик → Тюрьма на 3 часа.</div>
-    </article>
-    
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">2.5</div>
-        <h3>Выдача себя за администрацию</h3>
-      </div>
-      <p>Запрещено выдавать себя за представителя Администрации.</p>
-      <div class="punishment"><span>➤</span> Кик → Блокировка на 1 день.</div>
-    </article>
-    
-      </div>
-    </section>
-    
-    <section class="rule-group">
-      <div class="group-head">
-        <div>
-          <div class="group-kicker">⚙️ Elysium Java</div>
-          <h2>Свод №4 — Производительность сервера</h2>
-          <p>Стабильность TPS — общая ответственность игроков и администрации.</p>
-        </div>
-      </div>
-      <div class="cards">
-        
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">2.6</div>
-        <h3>Лаг-машины</h3>
-      </div>
-      <p>Запрещено строительство лаг-машин и сооружений, вызывающих просадки TPS.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 30 минут → Кик → Блокировка аккаунта, в тяжёлых случаях — по IP на 3 дня.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.7</div>
-        <h3>Воронки и лишний дроп</h3>
-      </div>
-      <p>Большое количество воронок в механизмах обязано быть закрыто компостерами сверху. Весь лишний дроп с ферм должен автоматически уничтожаться.</p>
-      <div class="punishment"><span>➤</span> Предупреждение → Принудительный снос механизма.</div>
-    </article>
-    
-    <article class="rule-card warn">
-      <div class="rule-top">
-        <div class="rule-num">2.8</div>
-        <h3>Мега-фермы в одном регионе</h3>
-      </div>
-      <p>Запрещено концентрировать несколько мега-ферм в одном регионе 16×16 чанков. Разносите постройки по миру.</p>
-      <div class="punishment"><span>➤</span> Предупреждение → Принудительный перенос или снос.</div>
-    </article>
-    
-      </div>
-    </section>
-    
-    <section class="rule-group">
-      <div class="group-head">
-        <div>
-          <div class="group-kicker">🚫 Elysium Java</div>
-          <h2>Свод №5 — Баги, дюпы и общие положения</h2>
-          <p>Любые ошибки сервера нельзя использовать для преимущества.</p>
-        </div>
-      </div>
-      <div class="cards">
-        
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">2.9</div>
-        <h3>Дюпы</h3>
-      </div>
-      <p>Запрещено дюпать предметы и использовать ошибки сервера для получения преимуществ.</p>
-      <div class="punishment"><span>➤</span> Блокировка аккаунта / IP на 60 лет + удаление всех надюпанных предметов.</div>
-    </article>
-    
-    <article class="rule-card danger">
-      <div class="rule-top">
-        <div class="rule-num">3.0</div>
-        <h3>Баги сервера</h3>
-      </div>
-      <p>Запрещено использование, распространение и сокрытие багов сервера.</p>
-      <div class="punishment"><span>➤</span> Тюрьма на 60 минут + дополнительная блокировка на 1 день.</div>
-    </article>
-    
-    <article class="rule-card info">
-      <div class="rule-top">
-        <div class="rule-num">3.1</div>
-        <h3>Действие правил</h3>
-      </div>
-      <p>Данный свод правил действует для всех игроков с момента регистрации на сервере.</p>
-      <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
-    </article>
-    
-    <article class="rule-card info">
-      <div class="rule-top">
-        <div class="rule-num">3.2</div>
-        <h3>Требования администрации</h3>
-      </div>
-      <p>Игрок обязан соблюдать правила сервера и выполнять требования Администрации.</p>
-      <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
-    </article>
-    
-    <article class="rule-card info">
-      <div class="rule-top">
-        <div class="rule-num">3.3</div>
-        <h3>Непрямые нарушения</h3>
-      </div>
-      <p>Администрация вправе применять наказания за нарушения, не описанные напрямую в правилах.</p>
-      <div class="punishment"><span>➤</span> Решение по ситуации.</div>
-    </article>
-    
-    <article class="rule-card info">
-      <div class="rule-top">
-        <div class="rule-num">3.4</div>
-        <h3>Окончательное решение</h3>
-      </div>
-      <p>Администрация оставляет за собой право принимать решения исходя из ситуации.</p>
-      <div class="punishment"><span>➤</span> Решение по ситуации.</div>
-    </article>
-    
-      </div>
-    </section>
-    
-
-    <section class="important" id="important">
-      <h2>⚠ Важно</h2>
-      <p>
-        Правила могут изменяться без предварительного уведомления.
-        Незнание правил не освобождает от ответственности.
-        Спасибо за игру на <b>Elysium Java</b>!
-      </p>
-    </section>
-
-    <footer class="footer">
-      <b>Elysium Java</b> — Minecraft Server<br>
-      Все права защищены · Bedrock / Java
-    </footer>
   </main>
+
+  <main id="javaView" class="view">
+    <section class="rules-page">
+      <div class="back-row">
+        <button class="back-btn" type="button" data-target="homeView">← На главную</button>
+        <button class="back-btn" type="button" data-target="bedrockView">Перейти к Bedrock →</button>
+      </div>
+
+      <section class="page-hero">
+        <div>
+          <div class="badge">☕ Java направление</div>
+          <h1><span>Elysium Java</span><br>Правила сервера</h1>
+          <p class="lead">Эти правила действуют для всех игроков Java-направления с момента регистрации на сервере. Играйте честно, уважайте других игроков и не создавайте проблем проекту.</p>
+        </div>
+
+        <aside class="hero-card">
+          <h2>Коротко о главном</h2>
+          <div class="stats">
+              <div class="stat">
+                <strong>Честная игра</strong>
+                <span>без читов, X-Ray, макросов и дюпов</span>
+              </div>
+              <div class="stat">
+                <strong>TPS</strong>
+                <span>стабильность сервера — общая ответственность</span>
+              </div>
+              <div class="stat">
+                <strong>ЛС</strong>
+                <span>спорные ситуации лучше решать с администрацией</span>
+              </div>
+              <div class="stat">
+                <strong>Ban</strong>
+                <span>тяжёлые нарушения караются блокировкой</span>
+              </div>
+          </div>
+          <div class="notice">
+            Администрация вправе принимать решения исходя из ситуации, даже если нарушение не описано в правилах напрямую.
+          </div>
+        </aside>
+      </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">🛡️ Elysium Rules</div>
+            <h2>Свод №1 — Безопасность и честная игра</h2>
+            <p>Аккаунты, читы, вмешательство в игру и внешний вид.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.0</div>
+                <h3>Скины 18+</h3>
+              </div>
+              <p>Запрещено использование скинов, содержащих материалы 18+.</p>
+              <div class="punishment"><span>➤</span> Кик → Тюрьма на 30 минут.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.1</div>
+                <h3>Взлом и кража данных</h3>
+              </div>
+              <p>Запрещены попытки взлома аккаунтов, кража данных и обман игроков с целью получения доступа к их учётным записям.</p>
+              <div class="punishment"><span>➤</span> Перманентная блокировка (в тяжелых случаях — по IP) + снятие привилегий.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.2</div>
+                <h3>Стороннее ПО</h3>
+              </div>
+              <p>Запрещено использование стороннего ПО: читов, макросов, автокликеров, X-Ray и любых программ, изменяющих игровой процесс.</p>
+              <div class="punishment"><span>➤</span> Блокировка по IP навсегда + снятие привилегий.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">1.3</div>
+                <h3>Помеха игровому процессу</h3>
+              </div>
+              <p>Запрещено намеренно мешать игровому процессу других игроков.</p>
+              <div class="punishment"><span>➤</span> Тюрьма до 50 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.4</div>
+                <h3>Постройки и биомы</h3>
+              </div>
+              <p>Запрещено строительство нецензурных сооружений и намеренная порча биомов.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 15 минут → Блокировка на 1 день (1440 минут).</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">💬 Elysium Rules</div>
+            <h2>Свод №2 — Общение и поведение</h2>
+            <p>Аккаунты, чат, оскорбления и отношение к администрации.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.5</div>
+                <h3>Передача аккаунтов</h3>
+              </div>
+              <p>Запрещена передача, продажа, обмен или розыгрыш игровых аккаунтов.</p>
+              <div class="punishment"><span>➤</span> Блокировка (в тяжелых случаях — по IP) навсегда + снятие привилегий.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">1.6</div>
+                <h3>Оскорбления, угрозы, флуд и спам</h3>
+              </div>
+              <p>Запрещены оскорбления, унижения, угрозы, флуд и спам.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 20 минут.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.7</div>
+                <h3>Оскорбления родственников</h3>
+              </div>
+              <p>Запрещены оскорбления родственников игроков.</p>
+              <div class="punishment"><span>➤</span> Блокировка на 3 дня (4320 минут).</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">1.8</div>
+                <h3>Оскорбление администрации</h3>
+              </div>
+              <p>Запрещено оскорбительное отношение к Администрации сервера.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 15 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.9</div>
+                <h3>Провокации против проекта</h3>
+              </div>
+              <p>Запрещены намеренные провокации и деструктивные высказывания в адрес проекта.</p>
+              <div class="punishment"><span>➤</span> Кик → Блокировка на 1 день (1440 минут).</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">⚖️ Elysium Rules</div>
+            <h2>Свод №3 — Реклама, администрация и спорные ситуации</h2>
+            <p>Реклама, требования администрации, провокации и спорные ситуации.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">2.0</div>
+                <h3>Реклама</h3>
+              </div>
+              <p>Запрещена реклама сторонних проектов, ресурсов и серверов Minecraft.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 60 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.1</div>
+                <h3>Игнорирование администрации</h3>
+              </div>
+              <p>Запрещено игнорирование требований Администрации.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 10 минут → Кик → Тюрьма на 60 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.2</div>
+                <h3>Провокация наказания</h3>
+              </div>
+              <p>Запрещено намеренно провоцировать выдачу наказания.</p>
+              <div class="punishment"><span>➤</span> Кик → Блокировка на 720 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.3</div>
+                <h3>Выпрашивание</h3>
+              </div>
+              <p>Запрещено выпрашивание доната, материальных ценностей или помощи у Администрации.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 10 минут → Кик → Блокировка на 60 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.4</div>
+                <h3>Обсуждение действий администрации</h3>
+              </div>
+              <p>Публичное обсуждение действий Администрации допускается только в предусмотренных разделах проекта.</p>
+              <div class="punishment"><span>➤</span> Кик → Тюрьма на 3 часа (180 минут).</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.5</div>
+                <h3>Выдача себя за администрацию</h3>
+              </div>
+              <p>Запрещено выдавать себя за представителя Администрации.</p>
+              <div class="punishment"><span>➤</span> Кик → Блокировка на 1 день (1440 минут).</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">⚙️ Elysium Rules</div>
+            <h2>Свод №4 — Производительность сервера</h2>
+            <p>Мы работаем на однопоточном ядре. Стабильность TPS — общая ответственность.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.6</div>
+                <h3>Лаг-машины</h3>
+              </div>
+              <p>Запрещено строительство лаг-машин и сооружений, вызывающих просадки TPS.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 30 минут → Кик → Блокировка аккаунта (в тяжелых случаях — по IP) на 3 дня (4320 минут).</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.7</div>
+                <h3>Воронки и лишний дроп</h3>
+              </div>
+              <p>Большое количество воронок (hoppers) в механизмах обязаны быть закрыты компостерами сверху. Весь лишний дроп с ферм должен автоматически уничтожаться.</p>
+              <div class="punishment"><span>➤</span> Предупреждение → Принудительный снос механизма.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.8</div>
+                <h3>Мега-фермы в одном регионе</h3>
+              </div>
+              <p>Запрещено концентрировать несколько мега-ферм в одном регионе (16x16 чанков). Разносите постройки по миру.</p>
+              <div class="punishment"><span>➤</span> Предупреждение → Принудительный перенос/снос.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">🚫 Elysium Rules</div>
+            <h2>Свод №5 — Баги, дюпы и общие положения</h2>
+            <p>Дюпы, баги и общие правила Java-направления.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.9</div>
+                <h3>Дюпы</h3>
+              </div>
+              <p>Запрещено дюпать предметы и использовать ошибки сервера для получения преимуществ.</p>
+              <div class="punishment"><span>➤</span> Блокировка аккаунта / IP на 60 лет + удаление всех надюпанных предметов.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">3.0</div>
+                <h3>Баги сервера</h3>
+              </div>
+              <p>Запрещено использование, распространение и сокрытие багов сервера.</p>
+              <div class="punishment"><span>➤</span> Тюрьма на 60 минут + дополнительная блокировка на 1 день.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.1</div>
+                <h3>Действие правил</h3>
+              </div>
+              <p>Данный свод правил действует для всех игроков с момента регистрации на сервере.</p>
+              <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.2</div>
+                <h3>Соблюдение правил</h3>
+              </div>
+              <p>Игрок обязан соблюдать правила сервера и выполнять требования Администрации.</p>
+              <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.3</div>
+                <h3>Непрямые нарушения</h3>
+              </div>
+              <p>Администрация вправе применять наказания за нарушения, не описанные напрямую в правилах.</p>
+              <div class="punishment"><span>➤</span> Решение по ситуации.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.4</div>
+                <h3>Решение по ситуации</h3>
+              </div>
+              <p>Администрация оставляет за собой право принимать решения исходя из ситуации.</p>
+              <div class="punishment"><span>➤</span> Решение по ситуации.</div>
+            </article>
+          </div>
+        </section>
+
+
+      <section class="important">
+        <h2>⚠ Важно</h2>
+        <p>Правила могут изменяться без предварительного уведомления. Незнание правил не освобождает от ответственности. Спасибо за игру на Elysium Java!</p>
+      </section>
+
+      <footer class="footer">
+        <b>Elysium Java</b> — Minecraft Server<br>
+        Все права защищены
+      </footer>
+    </section>
+  </main>
+
+
+  <main id="bedrockView" class="view">
+    <section class="rules-page">
+      <div class="back-row">
+        <button class="back-btn" type="button" data-target="homeView">← На главную</button>
+        <button class="back-btn" type="button" data-target="javaView">Перейти к Java →</button>
+      </div>
+
+      <section class="page-hero">
+        <div>
+          <div class="badge">🟩 Bedrock направление</div>
+          <h1><span>Elysium Bedrock</span><br>Правила сервера</h1>
+          <p class="lead">Эти правила действуют на всех пользователей Bedrock-направления с момента регистрации аккаунта на сервере.</p>
+        </div>
+
+        <aside class="hero-card">
+          <h2>Коротко о главном</h2>
+          <div class="stats">
+              <div class="stat">
+                <strong>IP/CID</strong>
+                <span>тяжёлые нарушения могут караться по IP/CID</span>
+              </div>
+              <div class="stat">
+                <strong>Команды</strong>
+                <span>админ-команды нельзя использовать без причины</span>
+              </div>
+              <div class="stat">
+                <strong>Чат</strong>
+                <span>без оскорблений, спама, рекламы и провокаций</span>
+              </div>
+              <div class="stat">
+                <strong>TPS</strong>
+                <span>лаг-постройки и вред серверу запрещены</span>
+              </div>
+          </div>
+          <div class="notice">
+            Администрация вправе принимать решения исходя из ситуации, даже если нарушение не описано в правилах напрямую.
+          </div>
+        </aside>
+      </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">🛡️ Elysium Rules</div>
+            <h2>Игровые правила</h2>
+            <p>Скины, аккаунты, читы, телепорты, команды и помехи игровому процессу.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.0</div>
+                <h3>18+ скины</h3>
+              </div>
+              <p>Запрещено использование 18+ скинов.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на 60 минут.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.1</div>
+                <h3>Взлом и получение данных</h3>
+              </div>
+              <p>Запрещена попытка взлома, взлом пользователя, а также намеренный обман игроков с целью получить их данные от аккаунта.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID навсегда + снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.2</div>
+                <h3>Сторонние программы</h3>
+              </div>
+              <p>Запрещено использование сторонних программ ( Софт-Читов. ), ( Макросов ), ( Модов), ( Автокликера ) и т.п. для облегчения или изменения игрового процесса, включая PVP-режим Драг-Клика.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID на ( 60 Лет. ) / ( 31536000 минут ) + снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.3</div>
+                <h3>TPA/TP для убийства</h3>
+              </div>
+              <p>Запрещена телепортация к игроку или к себе с целью его убийства - ( /tpa - /tp ).</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта на ( День. ) 1440 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.4</div>
+                <h3>Команды без корректной причины</h3>
+              </div>
+              <p>Запрещено использование команд /ban, /banip, /bancid, /pardon, /pardon-ip, /pardoncid, /kill, /kick, /mute, /jail, /tphere, /freeze, без корректных, соответствующих причин, сроков.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта на ( 3 Дня. ) 4320 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">1.5</div>
+                <h3>Помеха игровому процессу</h3>
+              </div>
+              <p>Запрещено создавать помеху игровому процессу: игнорирование требований покинуть регион, намеренно препятствовать игрокам взаимодействовать с игровыми механиками сервера.</p>
+              <div class="punishment"><span>➤</span> тюрьма на 30 минут: ➝ блокировка игрового аккаунта на ( 3 Часа. ) 180 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.6</div>
+                <h3>Нецензурные постройки и порча биомов</h3>
+              </div>
+              <p>Запрещено (строительство нецензурных построек) и (намеренная порча) биомов сервера.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на ( День. ) 1440 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">1.7</div>
+                <h3>Передача аккаунта</h3>
+              </div>
+              <p>Запрещено передавать, продавать, обменивать, разыгрывать аккаунт кому-либо.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID на ( 60 Лет. ) / ( 31536000 минут ) + снятие.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">💬 Elysium Rules</div>
+            <h2>Правила в чате</h2>
+            <p>Общение игроков, родные, администрация, проект и реклама.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">1.8</div>
+                <h3>Оскорбления, угрозы, спам и флуд</h3>
+              </div>
+              <p>Запрещено оскорблять игроков проекта, использовать слова оскорбительного характера, унижать честь и достоинство, ущемлять в правах игроков, угрожать, спамить, флудить в любых проявлениях.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта на 60 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">1.9</div>
+                <h3>Упоминание родных</h3>
+              </div>
+              <p>Запрещено упоминание родных игрока в оскорбительной, провокационной, унизительной форме.</p>
+              <div class="punishment"><span>➤</span> мут на 60 минут.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">2.0</div>
+                <h3>Оскорбление администрации</h3>
+              </div>
+              <p>Запрещено оскорбительное отношение к Администрации сервера.</p>
+              <div class="punishment"><span>➤</span> тюрьма на 15 минут: ➝ блокировка игрового аккаунта на ( 3 Часа. ) 180 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.1</div>
+                <h3>Негатив в сторону проекта</h3>
+              </div>
+              <p>Запрещено в негативной форме высказываться по поводу сервера, в сторону проекта.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на ( День. ) 1440 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.2</div>
+                <h3>Реклама сторонних ресурсов</h3>
+              </div>
+              <p>Запрещено рекламировать, призывать перейти на сторонний ресурс.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID на ( 60 Лет. ) / ( 31536000 минут ) + снятие.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.3</div>
+                <h3>Игнорирование администрации</h3>
+              </div>
+              <p>Запрещено игнорирование требований Администрации сервера.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на 720 минут + снятие.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.4</div>
+                <h3>Выпрашивание наказания</h3>
+              </div>
+              <p>Запрещено выпрашивать наказание без какого либо нарушения правил.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на 720 минут + снятие.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">2.5</div>
+                <h3>Попрошайничество доната</h3>
+              </div>
+              <p>Запрещено попрошайничество доната и реальных ценностей у Администрации сервера.</p>
+              <div class="punishment"><span>➤</span> тюрьма на 30 минут: ➝ блокировка игрового аккаунта на ( 3 Часа. ) 180 минут.</div>
+            </article>
+            <article class="rule-card warn">
+              <div class="rule-top">
+                <div class="rule-num">2.6</div>
+                <h3>Публичная критика администрации</h3>
+              </div>
+              <p>Запрещена публичная критика, оспаривание действий Администрации проекта.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на ( 3 Часа. ) 180 минут.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.7</div>
+                <h3>Выдача себя за администрацию</h3>
+              </div>
+              <p>Запрещено выдавать себя за Администрацию сервера.</p>
+              <div class="punishment"><span>➤</span> кик ➝ блокировка игрового аккаунта на ( День. ) 1440 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card jail">
+              <div class="rule-top">
+                <div class="rule-num">2.8</div>
+                <h3>Обман на игровые ценности</h3>
+              </div>
+              <p>Запрещено обманывать на вещи, игровую валюту, постройки, игровые ценности.</p>
+              <div class="punishment"><span>➤</span> тюрьма на 60 минут.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">⚙️ Elysium Rules</div>
+            <h2>Правила о вреде серверу</h2>
+            <p>Лаг-постройки, дюпы, баги и вред серверу.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">2.9</div>
+                <h3>Лаг-постройки</h3>
+              </div>
+              <p>Запрещено строительство Лаг-Построек / Построек вызывающих лаги у игроков и падения TPS сервера.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID на ( 3 Дня. ) 4320 минут ➝ снятие.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">3.0</div>
+                <h3>Дюп предметов</h3>
+              </div>
+              <p>Запрещено дюпать предметы, игровые ценности багами или сторонними программами.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта по IP/CID на ( День. ) 1440 минут ➝ снятие + удаление надюпанного.</div>
+            </article>
+            <article class="rule-card ban">
+              <div class="rule-top">
+                <div class="rule-num">3.1</div>
+                <h3>Баги и недоработки</h3>
+              </div>
+              <p>Запрещено использование любых багов сервера, недоработок проекта, игрового клиента, а также их распространение, нанесение вреда серверу в своих целях, будь то намеренных, или же случайных.</p>
+              <div class="punishment"><span>➤</span> блокировка игрового аккаунта на ( 3 Часа. ) 180 минут. ➝ снятие + блокировка игрового аккаунта по IP/CID на ( День. ) 1440 минут.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="rule-group">
+          <div class="group-head">
+            <div class="group-kicker">📌 Elysium Rules</div>
+            <h2>Общие правила</h2>
+            <p>Общие положения Bedrock-направления.</p>
+          </div>
+          <div class="cards">
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.2</div>
+                <h3>Действие правил</h3>
+              </div>
+              <p>Данный свод правил действует на всех пользователей с момента регистрации аккаунта на сервере.</p>
+              <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.3</div>
+                <h3>Требования администрации</h3>
+              </div>
+              <p>Игроки обязаны соблюдать предписания данных правил и выполнять требования Администрации.</p>
+              <div class="punishment"><span>➤</span> Обязательно к соблюдению.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.4</div>
+                <h3>Непрямые нарушения</h3>
+              </div>
+              <p>Администратор вправе наказать игрока по причине не указанной в настоящих правилах только при веской на то причине.</p>
+              <div class="punishment"><span>➤</span> Решение по ситуации.</div>
+            </article>
+            <article class="rule-card info">
+              <div class="rule-top">
+                <div class="rule-num">3.5</div>
+                <h3>Решение администрации</h3>
+              </div>
+              <p>Администрация проекта, вправе наказывать игроков на свое усмотрение, имеет право выдавать различные наказания за нарушения игроков, в связи с определенной ситуациией случая описанной в правилах.</p>
+              <div class="punishment"><span>➤</span> Решение по ситуации.</div>
+            </article>
+          </div>
+        </section>
+
+
+      <section class="important">
+        <h2>⚠ Важно</h2>
+        <p>Данный свод правил может корректироваться в течение времени Создателем сервер проекта. Незнание правил не освобождает от ответственности. Спасибо за игру на Elysium Bedrock!</p>
+      </section>
+
+      <footer class="footer">
+        <b>Elysium Bedrock</b> — Minecraft Server<br>
+        Все права защищены
+      </footer>
+    </section>
+  </main>
+
+
+  <script>
+    const views = ["homeView", "javaView", "bedrockView"];
+
+    function showView(id, updateHash = true) {
+      const next = views.includes(id) ? id : "homeView";
+
+      for (const viewId of views) {
+        document.getElementById(viewId).classList.toggle("active", viewId === next);
+      }
+
+      if (updateHash) {
+        const hash = next === "homeView" ? "" : "#" + next.replace("View", "");
+        history.pushState(null, "", hash || location.pathname);
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function fromHash() {
+      const hash = location.hash.replace("#", "").toLowerCase();
+
+      if (hash === "java") {
+        return "javaView";
+      }
+
+      if (hash === "bedrock") {
+        return "bedrockView";
+      }
+
+      return "homeView";
+    }
+
+    document.querySelectorAll("[data-target]").forEach((button) => {
+      button.addEventListener("click", () => showView(button.dataset.target));
+    });
+
+    window.addEventListener("popstate", () => showView(fromHash(), false));
+
+    showView(fromHash(), false);
+  </script>
 </body>
 </html>
