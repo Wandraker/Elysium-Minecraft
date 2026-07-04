@@ -1290,6 +1290,55 @@ body {
   }
 }
 
+  
+/* v0.0.11 mobile background stability fix */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  pointer-events: none;
+}
+
+/* На мобильных fixed-фон часто дёргается из-за адресной строки браузера.
+   Поэтому фон там становится обычным слоем страницы, а не fixed-слоем viewport. */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: 100%;
+    min-height: 100%;
+    transform: none;
+    background-position: center top;
+    background-size: cover;
+  }
+
+  body::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: 100%;
+    min-height: 100%;
+    transform: none;
+  }
+
+  .view {
+    animation: none;
+  }
+}
+
   </style>
 </head>
 <body>
