@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 2.2.1
+  Version: 2.2.2
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -1822,6 +1822,19 @@ body.homepage-intro-locked {
   }
 }
 
+  
+/* v2.2.2 render cooldown + refresh stability */
+[data-target].is-cooling,
+[data-target]:disabled {
+  pointer-events: none;
+  opacity: .62;
+  filter: saturate(.75);
+}
+
+.brand.is-cooling {
+  transform: none !important;
+}
+
   </style>
 </head>
 <body>
@@ -2385,8 +2398,50 @@ body.homepage-intro-locked {
       items.forEach((item) => observer.observe(item));
     }
 
-    function render(target, updateHash = true) {
+
+    try {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+    } catch (error) {}
+
+    window.__elysiumCurrentRoute = null;
+    window.__elysiumRenderBusy = false;
+    window.__elysiumRenderCooldownUntil = 0;
+
+    function setRenderCooldown(ms = 520) {
+      window.__elysiumRenderCooldownUntil = Date.now() + ms;
+
+      document.querySelectorAll("[data-target]").forEach((button) => {
+        button.classList.add("is-cooling");
+        button.disabled = true;
+      });
+
+      window.setTimeout(() => {
+        document.querySelectorAll("[data-target]").forEach((button) => {
+          button.classList.remove("is-cooling");
+          button.disabled = false;
+        });
+      }, ms);
+    }
+
+    function render(target, updateHash = true, options = {}) {
       const key = normalizeRoute(target);
+      const now = Date.now();
+
+      if (window.__elysiumRenderBusy === true) return;
+
+      if (!options.force && now < window.__elysiumRenderCooldownUntil) return;
+
+      if (!options.force && updateHash && key === window.__elysiumCurrentRoute) {
+        setRenderCooldown(420);
+        return;
+      }
+
+      window.__elysiumRenderBusy = true;
+      setRenderCooldown(options.initial === true ? 260 : 520);
+
+      document.body.classList.remove("homepage-intro-locked");
 
       if (key === "elysium") {
         app.innerHTML = elysiumView();
@@ -2398,17 +2453,34 @@ body.homepage-intro-locked {
         app.innerHTML = sectionView(key);
       }
 
+      window.__elysiumCurrentRoute = key;
+
       document.querySelectorAll("[data-target]").forEach((button) => {
-        button.addEventListener("click", () => render(button.dataset.target));
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          render(button.dataset.target);
+        });
       });
 
       initHomepageMotion();
 
       if (updateHash) {
-        history.pushState(null, "", "#" + routeHashes[key]);
+        const nextHash = "#" + routeHashes[key];
+
+        if (location.hash !== nextHash) {
+          history.pushState(null, "", nextHash);
+        }
       }
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: options.initial === true ? "auto" : "smooth"
+      });
+
+      window.setTimeout(() => {
+        window.__elysiumRenderBusy = false;
+      }, 90);
     }
 
     function fromHash() {
@@ -2416,9 +2488,15 @@ body.homepage-intro-locked {
       return normalizeRoute(hash || "elysium");
     }
 
-    window.addEventListener("popstate", () => render(fromHash(), false));
+    window.addEventListener("popstate", () => render(fromHash(), false, { force: true }));
 
-    render(fromHash(), false);
+    window.addEventListener("pageshow", () => {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+    });
+
+    render(fromHash(), false, { initial: true, force: true });
   </script>
 </body>
 </html>
