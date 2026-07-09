@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 0.0.12
+  Version: 2.0.0
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -1493,6 +1493,55 @@ html {
   }
 }
 
+  
+/* v0.0.13 true hero intro */
+#elysiumView .site-hero {
+  display: block;
+  align-items: initial;
+}
+
+#elysiumView .hero-front {
+  min-height: calc(100svh - 170px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 34px 0 46px;
+}
+
+#elysiumView .home-grid {
+  scroll-margin-top: 98px;
+  margin-top: 0;
+}
+
+#elysiumView .team-section {
+  margin-top: 28px;
+}
+
+@media (min-width: 901px) {
+  #elysiumView .hero-front {
+    min-height: calc(100svh - 150px);
+  }
+}
+
+@media (max-width: 700px) {
+  #elysiumView .hero-front {
+    min-height: calc(100svh - 132px);
+    padding: 28px 0 38px;
+  }
+
+  #elysiumView .home-grid {
+    scroll-margin-top: 78px;
+  }
+}
+
+@media (max-height: 680px) {
+  #elysiumView .hero-front {
+    min-height: 520px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -1578,7 +1627,8 @@ html {
         <main id="elysiumView" class="view">
           <section class="site-page site-hero">
             <div class="site-inner">
-              <h1><span>Elysium</span><br>Minecraft Server</h1>
+              <div class="hero-front">
+                <h1><span>Elysium</span><br>Minecraft Server</h1>
               <p class="lead">
                 Главная страница проекта Elysium. Здесь собраны правила, способы поддержки
                 и важные ссылки для игроков Java и Bedrock направлений.
@@ -1604,6 +1654,7 @@ html {
                   <span>К разделам</span>
                   <span class="scroll-arrow">↓</span>
                 </button>
+              </div>
               </div>
 
               <div class="home-grid">
