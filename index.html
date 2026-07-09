@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 2.2.2
+  Version: 2.3.0
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -1835,6 +1835,207 @@ body.homepage-intro-locked {
   transform: none !important;
 }
 
+  
+/* v2.3.0 Elysium START page */
+@media (min-width: 980px) {
+  #elysiumView .home-grid {
+    grid-template-columns: 1.12fr 1fr 1fr;
+  }
+}
+
+#elysiumView .start-card {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(74,222,128,.20), transparent 42%),
+    radial-gradient(circle at 100% 20%, rgba(88,166,255,.16), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.045));
+}
+
+.start-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.connect-card {
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.10), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+  padding: 26px;
+  overflow: hidden;
+}
+
+.connect-card.java {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(74,222,128,.18), transparent 42%),
+    radial-gradient(circle at 100% 10%, rgba(88,166,255,.14), transparent 44%),
+    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.045));
+}
+
+.connect-card.bedrock {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,157,66,.16), transparent 42%),
+    radial-gradient(circle at 100% 10%, rgba(255,79,163,.12), transparent 44%),
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+}
+
+.connect-card .icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid var(--line);
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.connect-card h2 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  letter-spacing: -.8px;
+}
+
+.connect-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.server-box {
+  margin: 18px 0;
+  display: grid;
+  gap: 10px;
+}
+
+.server-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,.22);
+  border-radius: 18px;
+  padding: 13px 14px;
+}
+
+.server-line span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.server-line code {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  word-break: break-all;
+}
+
+.server-line .masked {
+  color: rgba(255,255,255,.55);
+  letter-spacing: 3px;
+}
+
+.steps {
+  margin: 18px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.steps li::marker {
+  color: var(--pink);
+  font-weight: 900;
+}
+
+.start-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.main-btn.disabled,
+.main-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: saturate(.6);
+}
+
+.start-note {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: rgba(255,255,255,.075);
+  padding: 20px;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.start-note b {
+  color: #fff;
+}
+
+.copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(18px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(15,18,28,.86);
+  color: #fff;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 45px rgba(0,0,0,.36);
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-weight: 850;
+  transition: .24s ease;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 900px) {
+  .start-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .connect-card {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  .server-line {
+    display: block;
+  }
+
+  .server-line code {
+    display: block;
+    margin-top: 6px;
+  }
+
+  .start-actions {
+    display: grid;
+  }
+
+  .start-actions .main-btn {
+    width: 100%;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -1923,7 +2124,7 @@ body.homepage-intro-locked {
               <div class="hero-front">
                 <h1><span>Elysium</span><br>Minecraft Server</h1>
               <p class="lead">
-                Главная страница проекта Elysium. Здесь собраны правила, способы поддержки
+                Главная страница проекта Elysium. Здесь собраны старт игры, правила, способы поддержки
                 и важные ссылки для игроков Java и Bedrock направлений.
               </p>
 
@@ -1951,6 +2152,16 @@ body.homepage-intro-locked {
               </div>
 
               <div class="home-grid">
+                <article class="home-card start-card">
+                  <div class="icon">🚀</div>
+                  <h2>Начать играть</h2>
+                  <p>
+                    IP сервера, инструкция входа и быстрый старт для Java и Bedrock игроков.
+                    Всё нужное для подключения собрано в одном месте.
+                  </p>
+                  <button class="main-btn green" type="button" data-target="elysium-start">Открыть START →</button>
+                </article>
+
                 <article class="home-card">
                   <div class="icon">📃</div>
                   <h2>Правила проекта</h2>
@@ -2065,6 +2276,105 @@ body.homepage-intro-locked {
                 <button class="main-btn secondary" type="button" data-target="elysium">← На главную</button>
               </div>
             </div>
+          </section>
+        </main>
+      `;
+    }
+
+
+    function startView() {
+      return `
+        <main id="startView" class="view">
+          <section class="site-page">
+            <div class="back-row">
+              <button class="back-btn" type="button" data-target="elysium">← На главную</button>
+            </div>
+
+            <section class="page-hero">
+              <div>
+                <div class="badge">🚀 Elysium START</div>
+                <h1><span>Начать</span><br>игру</h1>
+                <p class="lead">
+                  Выберите платформу и подключайтесь к серверу. Java уже доступна по домену,
+                  Bedrock-направление пока оставлено как заготовка под будущий запуск.
+                </p>
+              </div>
+
+              <aside class="hero-card">
+                <h2>Перед входом</h2>
+                <div class="notice">
+                  Перед началом игры ознакомьтесь с правилами проекта. Читы, X-Ray,
+                  запрещённые моды и деструктивное поведение приводят к наказаниям.
+                </div>
+              </aside>
+            </section>
+
+            <div class="start-grid">
+              <article class="connect-card java">
+                <div class="icon">☕</div>
+                <h2>Java Edition</h2>
+                <p>Основной вход для игроков Java. Достаточно указать домен сервера.</p>
+
+                <div class="server-box">
+                  <div class="server-line">
+                    <span>Адрес сервера</span>
+                    <code>elysiumjava.ru</code>
+                  </div>
+                </div>
+
+                <ol class="steps">
+                  <li>Откройте Minecraft Java Edition.</li>
+                  <li>Перейдите в «Сетевая игра».</li>
+                  <li>Нажмите «Добавить сервер».</li>
+                  <li>Вставьте адрес <b>elysiumjava.ru</b>.</li>
+                </ol>
+
+                <div class="start-actions">
+                  <button class="main-btn green" type="button" data-copy="elysiumjava.ru">Скопировать IP</button>
+                  <button class="main-btn secondary" type="button" data-target="java-rules">Правила Java →</button>
+                </div>
+              </article>
+
+              <article class="connect-card bedrock">
+                <div class="icon">🟩</div>
+                <h2>Bedrock Edition</h2>
+                <p>Bedrock-направление пока готовится. Адрес и порт будут указаны отдельно.</p>
+
+                <div class="server-box">
+                  <div class="server-line">
+                    <span>Адрес сервера</span>
+                    <code class="masked">********</code>
+                  </div>
+                  <div class="server-line">
+                    <span>Порт</span>
+                    <code class="masked">*****</code>
+                  </div>
+                </div>
+
+                <ol class="steps">
+                  <li>Откройте Minecraft Bedrock Edition.</li>
+                  <li>Перейдите в «Серверы».</li>
+                  <li>Нажмите «Добавить сервер».</li>
+                  <li>Введите адрес и порт, когда они появятся.</li>
+                </ol>
+
+                <div class="start-actions">
+                  <button class="main-btn disabled" type="button" disabled>Скоро</button>
+                  <button class="main-btn secondary" type="button" data-target="bedrock-rules">Правила Bedrock →</button>
+                </div>
+              </article>
+            </div>
+
+            <section class="start-note">
+              <b>Подсказка:</b> если сайт открыт с телефона, IP можно скопировать кнопкой выше,
+              а затем вставить его в поле адреса сервера в Minecraft. Для Bedrock порт обязателен,
+              поэтому пока он скрыт до запуска направления.
+            </section>
+
+            <footer class="footer">
+              <b>Elysium START</b> — Minecraft Server<br>
+              © 2026 Elysium. Все права защищены.
+            </footer>
           </section>
         </main>
       `;
@@ -2189,6 +2499,7 @@ body.homepage-intro-locked {
       "elysium": "elysium",
       "home": "elysium",
       "rules": "rules",
+      "elysium-start": "start",
       "java-rules": "java",
       "bedrock-rules": "bedrock",
       "chat-rules": "chat",
@@ -2202,6 +2513,7 @@ body.homepage-intro-locked {
     const routeHashes = {
       "elysium": "elysium",
       "rules": "rules",
+      "start": "elysium-start",
       "java": "java-rules",
       "bedrock": "bedrock-rules",
       "chat": "chat-rules",
@@ -2425,6 +2737,69 @@ body.homepage-intro-locked {
       }, ms);
     }
 
+
+    function initCopyButtons() {
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        if (button.dataset.copyReady === "true") return;
+        button.dataset.copyReady = "true";
+
+        const originalText = button.textContent;
+
+        button.addEventListener("click", async () => {
+          const value = button.dataset.copy || "";
+          if (!value) return;
+
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(value);
+            } else {
+              const textarea = document.createElement("textarea");
+              textarea.value = value;
+              textarea.setAttribute("readonly", "");
+              textarea.style.position = "fixed";
+              textarea.style.left = "-9999px";
+              document.body.appendChild(textarea);
+              textarea.select();
+              document.execCommand("copy");
+              textarea.remove();
+            }
+
+            button.textContent = "Скопировано ✓";
+            showCopyToast("IP скопирован: " + value);
+
+            window.setTimeout(() => {
+              button.textContent = originalText;
+            }, 1400);
+          } catch (error) {
+            button.textContent = "Не скопировалось";
+            showCopyToast("Не удалось скопировать автоматически");
+
+            window.setTimeout(() => {
+              button.textContent = originalText;
+            }, 1400);
+          }
+        });
+      });
+    }
+
+    function showCopyToast(text) {
+      let toast = document.querySelector(".copy-toast");
+
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.className = "copy-toast";
+        document.body.appendChild(toast);
+      }
+
+      toast.textContent = text;
+      toast.classList.add("show");
+
+      window.clearTimeout(window.__elysiumCopyToastTimer);
+      window.__elysiumCopyToastTimer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1600);
+    }
+
     function render(target, updateHash = true, options = {}) {
       const key = normalizeRoute(target);
       const now = Date.now();
@@ -2447,6 +2822,8 @@ body.homepage-intro-locked {
         app.innerHTML = elysiumView();
       } else if (key === "rules") {
         app.innerHTML = rulesView();
+      } else if (key === "start") {
+        app.innerHTML = startView();
       } else if (key === "donate") {
         app.innerHTML = donateView();
       } else {
@@ -2463,6 +2840,7 @@ body.homepage-intro-locked {
       });
 
       initHomepageMotion();
+      initCopyButtons();
 
       if (updateHash) {
         const nextHash = "#" + routeHashes[key];
