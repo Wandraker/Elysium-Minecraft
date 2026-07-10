@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 2.4.3
+  Version: 2.5.0
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -2565,6 +2565,26 @@ body.ambient-route .cursor-glow {
   }
 }
 
+  
+/* v2.5.0 external node transfer screen */
+.transfer-screen{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:22px;pointer-events:none;opacity:0;background:radial-gradient(circle at 24% 16%,rgba(255,79,163,.18),transparent 36%),radial-gradient(circle at 76% 84%,rgba(88,166,255,.16),transparent 38%),rgba(3,3,8,.78);backdrop-filter:blur(18px);transition:opacity .22s ease}
+.transfer-screen.active{pointer-events:auto;opacity:1}
+.transfer-box{width:min(560px,100%);border:1px solid rgba(255,255,255,.18);border-radius:30px;background:radial-gradient(circle at 18% 0%,rgba(255,255,255,.14),transparent 36%),linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.045));box-shadow:0 30px 90px rgba(0,0,0,.54),inset 0 1px 0 rgba(255,255,255,.16);overflow:hidden;transform:translateY(16px) scale(.98);transition:transform .22s ease}
+.transfer-screen.active .transfer-box{transform:translateY(0) scale(1)}
+.transfer-head{padding:20px 22px 16px;border-bottom:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.transfer-title{display:grid;gap:4px}.transfer-title b{color:#fff;letter-spacing:.12em;font-size:13px}.transfer-title span{color:var(--muted);font-size:13px}
+.transfer-status{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.transfer-status .loader{width:18px;height:18px;border:2px solid rgba(255,255,255,.24);border-top-color:#fff;border-radius:50%;animation:transfer-spin .8s linear infinite}
+.transfer-status.ok{background:rgba(74,222,128,.18);border-color:rgba(74,222,128,.34);color:#8dffbd}
+.transfer-body{padding:20px 22px 22px}.transfer-node{margin-bottom:16px;border:1px solid rgba(255,255,255,.12);border-radius:20px;background:rgba(0,0,0,.22);padding:14px}
+.transfer-node span{display:block;color:var(--muted);font-size:12px;font-weight:850;margin-bottom:6px}.transfer-node code{color:#fff;font-size:15px;font-weight:900;word-break:break-all}
+.transfer-lines{display:grid;gap:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}.transfer-line{color:rgba(255,255,255,.56);opacity:.45;transform:translateX(-6px);transition:.25s ease}.transfer-line.active{color:#fff;opacity:1;transform:translateX(0)}.transfer-line.ok{color:#8dffbd}
+.transfer-progress{margin-top:18px;height:8px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10)}.transfer-progress span{display:block;height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,var(--pink),var(--orange),var(--green),var(--blue));background-size:220% 100%;animation:transfer-bar-flow 1.1s linear infinite;transition:width .28s ease}
+.transfer-cancel{margin-top:16px;width:100%;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:11px 14px;color:rgba(255,255,255,.82);background:rgba(255,255,255,.07);font-weight:850}
+@keyframes transfer-spin{to{transform:rotate(360deg)}}@keyframes transfer-bar-flow{to{background-position:220% 0}}
+@media(max-width:520px){.transfer-head,.transfer-body{padding-left:18px;padding-right:18px}.transfer-box{border-radius:26px}}
+@media(prefers-reduced-motion:reduce){.transfer-screen,.transfer-box,.transfer-line,.transfer-progress span{transition:none!important;animation:none!important}}
+
   </style>
 </head>
 <body>
@@ -2944,7 +2964,7 @@ body.ambient-route .cursor-glow {
                   Основная страница доната. Подходит для покупки доступных товаров,
                   привилегий или поддержки через магазин сервера.
                 </p>
-                <a class="main-btn green" href="https://elys1um.easydonate.ru/" target="_blank" rel="noopener noreferrer">
+                <a class="main-btn green" href="https://elys1um.easydonate.ru/" target="_blank" rel="noopener noreferrer" data-transfer-node="EasyDonate">
                   Открыть EasyDonate →
                 </a>
               </article>
@@ -2956,7 +2976,7 @@ body.ambient-route .cursor-glow {
                   Дополнительный способ поддержки через DALink / DonationAlerts.
                   Можно использовать временно, если основной способ неудобен.
                 </p>
-                <a class="main-btn orange" href="https://dalink.to/elysiumjava" target="_blank" rel="noopener noreferrer">
+                <a class="main-btn orange" href="https://dalink.to/elysiumjava" target="_blank" rel="noopener noreferrer" data-transfer-node="Альтернативная оплата">
                   Открыть DALink →
                 </a>
               </article>
@@ -3268,6 +3288,110 @@ body.ambient-route .cursor-glow {
 
 
 
+
+    function initExternalTransfer() {
+      document.querySelectorAll("[data-transfer-node]").forEach((link) => {
+        if (link.dataset.transferReady === "true") return;
+        link.dataset.transferReady = "true";
+
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const href = link.getAttribute("href");
+          if (!href) return;
+          runExternalTransfer(href, link.dataset.transferNode || "External Node");
+        });
+      });
+    }
+
+    function runExternalTransfer(url, nodeName) {
+      let screen = document.querySelector(".transfer-screen");
+
+      if (!screen) {
+        screen = document.createElement("div");
+        screen.className = "transfer-screen";
+        screen.innerHTML = `
+          <div class="transfer-box" role="dialog" aria-modal="true" aria-label="Переход на внешний узел">
+            <div class="transfer-head">
+              <div class="transfer-title">
+                <b>ELYSIUM TRANSFER NODE</b>
+                <span>Внешний маршрут оплаты</span>
+              </div>
+              <div class="transfer-status"><span class="loader"></span></div>
+            </div>
+            <div class="transfer-body">
+              <div class="transfer-node">
+                <span>Целевой узел</span>
+                <code class="transfer-url"></code>
+              </div>
+              <div class="transfer-lines">
+                <div class="transfer-line" data-step="0">&gt; подготовка защищённого перехода...</div>
+                <div class="transfer-line" data-step="1">&gt; проверка узла оплаты...</div>
+                <div class="transfer-line" data-step="2">&gt; маршрут подтверждён ✓</div>
+                <div class="transfer-line" data-step="3">&gt; выполняется перемещение...</div>
+              </div>
+              <div class="transfer-progress"><span></span></div>
+              <button class="transfer-cancel" type="button">Отменить переход</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(screen);
+      }
+
+      const status = screen.querySelector(".transfer-status");
+      const urlBox = screen.querySelector(".transfer-url");
+      const progress = screen.querySelector(".transfer-progress span");
+      const cancel = screen.querySelector(".transfer-cancel");
+      const lines = Array.from(screen.querySelectorAll(".transfer-line"));
+
+      let cancelled = false;
+      let timers = [];
+      const cleanupTimers = () => {
+        timers.forEach((timer) => window.clearTimeout(timer));
+        timers = [];
+      };
+      const close = () => {
+        cancelled = true;
+        cleanupTimers();
+        screen.classList.remove("active");
+      };
+
+      cancel.onclick = close;
+      urlBox.textContent = nodeName;
+      progress.style.width = "0%";
+      status.className = "transfer-status";
+      status.innerHTML = '<span class="loader"></span>';
+      lines.forEach((line) => line.classList.remove("active", "ok"));
+      screen.classList.add("active");
+
+      [
+        { delay: 130, width: "23%", index: 0 },
+        { delay: 620, width: "52%", index: 1 },
+        { delay: 1120, width: "78%", index: 2, ok: true },
+        { delay: 1540, width: "100%", index: 3 }
+      ].forEach((step) => {
+        timers.push(window.setTimeout(() => {
+          if (cancelled) return;
+          lines[step.index]?.classList.add("active");
+          if (step.ok) {
+            lines[step.index]?.classList.add("ok");
+            status.className = "transfer-status ok";
+            status.innerHTML = "✓";
+          }
+          progress.style.width = step.width;
+        }, step.delay));
+      });
+
+      timers.push(window.setTimeout(() => {
+        if (cancelled) return;
+        const opened = window.open(url, "_blank", "noopener,noreferrer");
+        if (!opened) {
+          location.href = url;
+          return;
+        }
+        screen.classList.remove("active");
+      }, 2050));
+    }
+
     function initAmbientEffects(routeKey) {
       const isAmbientRoute = routeKey === "elysium" || routeKey === "start";
       document.body.classList.toggle("ambient-route", isAmbientRoute);
@@ -3413,6 +3537,7 @@ body.ambient-route .cursor-glow {
       initHomepageMotion();
       initCopyButtons();
       initAmbientEffects(key);
+      initExternalTransfer();
 
       if (updateHash) {
         const nextHash = "#" + routeHashes[key];
