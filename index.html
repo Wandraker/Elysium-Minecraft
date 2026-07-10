@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 2.4.0
+  Version: 2.4.3
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -2234,6 +2234,334 @@ body.ambient-route .cursor-glow {
 
   .cursor-glow {
     display: none;
+  }
+}
+
+  
+/* v2.4.1 stronger ambient visibility */
+#elysiumView .home-grid::before,
+#startView .start-grid::before {
+  width: 520px;
+  height: 520px;
+  left: -150px;
+  top: -135px;
+  opacity: .92;
+  filter: blur(46px);
+  background:
+    radial-gradient(circle at 34% 34%, rgba(255,79,163,.72), transparent 55%),
+    radial-gradient(circle at 68% 70%, rgba(128,93,255,.58), transparent 62%);
+  animation-duration: 14s;
+}
+
+#elysiumView .home-grid::after,
+#startView .start-grid::after {
+  width: 540px;
+  height: 540px;
+  right: -165px;
+  bottom: -155px;
+  opacity: .82;
+  filter: blur(48px);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,157,66,.58), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(88,166,255,.54), transparent 62%);
+  animation-duration: 17s;
+}
+
+#elysiumView .home-card,
+#startView .connect-card {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.18), transparent 36%),
+    linear-gradient(180deg, rgba(255,255,255,.17), rgba(255,255,255,.055));
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+#elysiumView .start-card,
+#startView .connect-card.java {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(74,222,128,.26), transparent 42%),
+    radial-gradient(circle at 100% 18%, rgba(88,166,255,.22), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+}
+
+#startView .connect-card.bedrock {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255,157,66,.24), transparent 42%),
+    radial-gradient(circle at 100% 18%, rgba(255,79,163,.20), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,.17), rgba(255,255,255,.055));
+}
+
+#elysiumView .home-card::before,
+#startView .connect-card::before {
+  opacity: .9;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(255,255,255,.20), transparent 34%),
+    radial-gradient(circle at 85% 100%, rgba(255,79,163,.16), transparent 42%),
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,.08) 42%, transparent 70%);
+}
+
+#elysiumView .home-card::after,
+#startView .connect-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .38;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 35%, transparent 58%);
+  transform: translateX(-70%);
+  animation: card-aurora-sweep 7s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+#elysiumView .home-card:nth-child(2)::after,
+#startView .connect-card:nth-child(2)::after {
+  animation-delay: -2.4s;
+}
+
+#elysiumView .home-card:nth-child(3)::after {
+  animation-delay: -4.2s;
+}
+
+#elysiumView .home-card:hover,
+#startView .connect-card:hover {
+  border-color: rgba(255,255,255,.28);
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.42),
+    0 0 44px rgba(255,79,163,.12),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.main-btn {
+  box-shadow:
+    0 12px 30px rgba(255,79,163,.16),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.main-btn.green {
+  box-shadow:
+    0 12px 34px rgba(74,222,128,.16),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.main-btn::before {
+  content: "";
+  position: absolute;
+  inset: -28px;
+  pointer-events: none;
+  opacity: .25;
+  background: radial-gradient(circle, rgba(255,255,255,.32), transparent 58%);
+  transform: translate3d(-26%, -20%, 0);
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .main-btn:hover::before {
+    opacity: .48;
+    transform: translate3d(18%, 8%, 0);
+  }
+}
+
+body.ambient-route .cursor-glow {
+  opacity: 1;
+}
+
+.cursor-glow {
+  width: 560px;
+  height: 560px;
+  background:
+    radial-gradient(circle, rgba(255,79,163,.30) 0%, rgba(88,166,255,.18) 34%, rgba(255,157,66,.08) 52%, transparent 72%);
+  filter: blur(4px);
+}
+
+@keyframes card-aurora-sweep {
+  0%, 35% {
+    transform: translateX(-75%);
+    opacity: .18;
+  }
+
+  52% {
+    transform: translateX(55%);
+    opacity: .42;
+  }
+
+  100% {
+    transform: translateX(85%);
+    opacity: .10;
+  }
+}
+
+@media (max-width: 900px), (hover: none), (pointer: coarse) {
+  #elysiumView .home-grid::before,
+  #elysiumView .home-grid::after,
+  #startView .start-grid::before,
+  #startView .start-grid::after {
+    opacity: .68;
+    filter: blur(42px);
+    animation-duration: 24s;
+  }
+
+  #elysiumView .home-card::after,
+  #startView .connect-card::after {
+    opacity: .26;
+    animation-duration: 10s;
+  }
+}
+
+@media (max-width: 520px) {
+  #elysiumView .home-grid::before,
+  #startView .start-grid::before {
+    width: 340px;
+    height: 340px;
+    left: -120px;
+    top: -92px;
+  }
+
+  #elysiumView .home-grid::after,
+  #startView .start-grid::after {
+    width: 360px;
+    height: 360px;
+    right: -120px;
+    bottom: -100px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #elysiumView .home-card::after,
+  #startView .connect-card::after {
+    animation: none !important;
+  }
+}
+
+  
+/* v2.4.2 cleaner ambient: no weird card sweep */
+#elysiumView .home-card::after,
+#startView .connect-card::after {
+  content: none !important;
+  animation: none !important;
+}
+
+#elysiumView .home-grid::before,
+#startView .start-grid::before {
+  opacity: .82;
+  filter: blur(54px);
+  animation: ambient-blob-one 10s ease-in-out infinite alternate;
+}
+
+#elysiumView .home-grid::after,
+#startView .start-grid::after {
+  opacity: .74;
+  filter: blur(56px);
+  animation: ambient-blob-two 12s ease-in-out infinite alternate;
+}
+
+#elysiumView .home-card,
+#startView .connect-card {
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+#elysiumView .home-card:hover,
+#startView .connect-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,.26);
+  box-shadow:
+    0 28px 82px rgba(0,0,0,.40),
+    0 0 34px rgba(255,79,163,.10),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+#elysiumView .home-grid,
+#startView .start-grid {
+  background:
+    radial-gradient(circle at var(--ambient-x, 18%) var(--ambient-y, 22%), rgba(255,79,163,.11), transparent 34%),
+    radial-gradient(circle at calc(100% - var(--ambient-x, 18%)) 88%, rgba(255,157,66,.08), transparent 38%);
+  border-radius: 34px;
+  animation: ambient-soft-shift 13s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-soft-shift {
+  0% {
+    --ambient-x: 14%;
+    --ambient-y: 20%;
+  }
+
+  100% {
+    --ambient-x: 86%;
+    --ambient-y: 58%;
+  }
+}
+
+@media (max-width: 900px), (hover: none), (pointer: coarse) {
+  #elysiumView .home-grid::before,
+  #elysiumView .home-grid::after,
+  #startView .start-grid::before,
+  #startView .start-grid::after {
+    opacity: .52;
+    filter: blur(48px);
+    animation-duration: 18s;
+  }
+
+  #elysiumView .home-grid,
+  #startView .start-grid {
+    animation-duration: 20s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #elysiumView .home-grid,
+  #startView .start-grid {
+    animation: none !important;
+  }
+}
+
+  
+/* v2.4.3 animated gradient buttons */
+@keyframes btn-gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.main-btn:not(.secondary):not(.disabled):not(:disabled),
+.choice-btn {
+  background-size: 220% 220% !important;
+  animation: btn-gradient-flow 6.2s ease-in-out infinite;
+  will-change: background-position, transform;
+  text-shadow: 0 1px 10px rgba(0,0,0,.18);
+}
+
+.main-btn:not(.secondary):not(.green):not(.orange):not(.disabled):not(:disabled),
+.choice.java .choice-btn {
+  background-image: linear-gradient(120deg, #ff6ab7 0%, #ff9d42 24%, #805dff 54%, #58a6ff 78%, #ff6ab7 100%) !important;
+}
+
+.main-btn.green {
+  background-image: linear-gradient(120deg, #4cff9b 0%, #58a6ff 30%, #5de2ff 58%, #7b8cff 82%, #4cff9b 100%) !important;
+}
+
+.main-btn.orange,
+.chat .choice-btn {
+  background-image: linear-gradient(120deg, #ff9d42 0%, #ffd36e 22%, #ff6ab7 58%, #ff8a5b 82%, #ff9d42 100%) !important;
+}
+
+.bedrock .choice-btn {
+  background-image: linear-gradient(120deg, #4cff9b 0%, #58a6ff 34%, #7b8cff 60%, #5de2ff 84%, #4cff9b 100%) !important;
+}
+
+.main-btn:not(.secondary):not(.disabled):not(:disabled):hover,
+.choice-btn:hover {
+  filter: saturate(1.12) brightness(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-btn:not(.secondary):not(.disabled):not(:disabled),
+  .choice-btn {
+    animation: none !important;
+    background-position: 50% 50% !important;
   }
 }
 
