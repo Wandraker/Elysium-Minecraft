@@ -3,7 +3,7 @@
   Elysium Minecraft Website
   Official project:   Copyright (c) 2026 Elysium / Wandraker.
   All Rights Reserved.
-  Version: 2.3.0
+  Version: 2.4.0
 
   Copying, redistribution, modification, reuse, resale,
   or creating derivative works without permission is prohibited.
@@ -2036,6 +2036,207 @@ body.homepage-intro-locked {
   }
 }
 
+  
+/* v2.4.0 ambient glass effects */
+#elysiumView .home-grid,
+#startView .start-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+#elysiumView .home-grid::before,
+#elysiumView .home-grid::after,
+#startView .start-grid::before,
+#startView .start-grid::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 999px;
+  opacity: .58;
+  filter: blur(58px);
+  will-change: transform;
+}
+
+#elysiumView .home-grid::before,
+#startView .start-grid::before {
+  width: 360px;
+  height: 360px;
+  left: -110px;
+  top: -92px;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255,79,163,.42), transparent 58%),
+    radial-gradient(circle at 70% 70%, rgba(128,93,255,.34), transparent 62%);
+  animation: ambient-blob-one 18s ease-in-out infinite alternate;
+}
+
+#elysiumView .home-grid::after,
+#startView .start-grid::after {
+  width: 390px;
+  height: 390px;
+  right: -128px;
+  bottom: -118px;
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255,157,66,.34), transparent 56%),
+    radial-gradient(circle at 72% 68%, rgba(88,166,255,.32), transparent 62%);
+  animation: ambient-blob-two 22s ease-in-out infinite alternate;
+}
+
+#elysiumView .home-card,
+#elysiumView .team-section,
+#startView .connect-card,
+#startView .start-note {
+  position: relative;
+  z-index: 1;
+}
+
+#elysiumView .home-card::before,
+#startView .connect-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255,255,255,.13), transparent 34%),
+    radial-gradient(circle at 100% 100%, rgba(255,79,163,.08), transparent 38%);
+  mix-blend-mode: screen;
+}
+
+#elysiumView .home-card:hover::before,
+#startView .connect-card:hover::before {
+  opacity: .95;
+}
+
+.main-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.main-btn::after {
+  content: "";
+  position: absolute;
+  inset: -2px -54px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(110deg, transparent 18%, rgba(255,255,255,.44) 45%, transparent 72%);
+  transform: translateX(-120%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .main-btn:hover::after {
+    opacity: .8;
+    animation: button-shine .75s ease forwards;
+  }
+}
+
+.cursor-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 420px;
+  height: 420px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transform: translate3d(calc(var(--glow-x, 50vw) - 50%), calc(var(--glow-y, 50vh) - 50%), 0);
+  background: radial-gradient(circle, rgba(255,79,163,.18) 0%, rgba(88,166,255,.10) 38%, transparent 70%);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  transition: opacity .28s ease;
+  will-change: transform, opacity;
+}
+
+body.ambient-route .cursor-glow {
+  opacity: .85;
+}
+
+@keyframes ambient-blob-one {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  45% {
+    transform: translate3d(62px, 28px, 0) scale(1.08);
+  }
+
+  100% {
+    transform: translate3d(112px, -18px, 0) scale(.96);
+  }
+}
+
+@keyframes ambient-blob-two {
+  0% {
+    transform: translate3d(0, 0, 0) scale(.98);
+  }
+
+  50% {
+    transform: translate3d(-72px, -34px, 0) scale(1.06);
+  }
+
+  100% {
+    transform: translate3d(-118px, 22px, 0) scale(1.02);
+  }
+}
+
+@keyframes button-shine {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@media (max-width: 900px), (hover: none), (pointer: coarse) {
+  #elysiumView .home-grid::before,
+  #elysiumView .home-grid::after,
+  #startView .start-grid::before,
+  #startView .start-grid::after {
+    opacity: .34;
+    filter: blur(44px);
+    animation-duration: 30s;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  #elysiumView .home-grid::before,
+  #startView .start-grid::before {
+    width: 250px;
+    height: 250px;
+    left: -82px;
+    top: -68px;
+  }
+
+  #elysiumView .home-grid::after,
+  #startView .start-grid::after {
+    width: 270px;
+    height: 270px;
+    right: -92px;
+    bottom: -84px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #elysiumView .home-grid::before,
+  #elysiumView .home-grid::after,
+  #startView .start-grid::before,
+  #startView .start-grid::after,
+  .main-btn:hover::after {
+    animation: none !important;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -2738,6 +2939,48 @@ body.homepage-intro-locked {
     }
 
 
+
+    function initAmbientEffects(routeKey) {
+      const isAmbientRoute = routeKey === "elysium" || routeKey === "start";
+      document.body.classList.toggle("ambient-route", isAmbientRoute);
+
+      if (!isAmbientRoute || window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      let glow = document.querySelector(".cursor-glow");
+
+      if (!glow) {
+        glow = document.createElement("div");
+        glow.className = "cursor-glow";
+        document.body.appendChild(glow);
+      }
+
+      if (window.__elysiumGlowReady === true) return;
+      window.__elysiumGlowReady = true;
+
+      let raf = 0;
+      let x = window.innerWidth / 2;
+      let y = window.innerHeight / 2;
+
+      const update = () => {
+        raf = 0;
+        document.documentElement.style.setProperty("--glow-x", x + "px");
+        document.documentElement.style.setProperty("--glow-y", y + "px");
+      };
+
+      window.addEventListener("pointermove", (event) => {
+        if (!document.body.classList.contains("ambient-route")) return;
+
+        x = event.clientX;
+        y = event.clientY;
+
+        if (!raf) {
+          raf = window.requestAnimationFrame(update);
+        }
+      }, { passive: true });
+    }
+
     function initCopyButtons() {
       document.querySelectorAll("[data-copy]").forEach((button) => {
         if (button.dataset.copyReady === "true") return;
@@ -2841,6 +3084,7 @@ body.homepage-intro-locked {
 
       initHomepageMotion();
       initCopyButtons();
+      initAmbientEffects(key);
 
       if (updateHash) {
         const nextHash = "#" + routeHashes[key];
