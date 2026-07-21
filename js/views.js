@@ -500,11 +500,10 @@ function accountView() {
 
           <section id="accountDashboard" class="account-dashboard account-dashboard-v2" hidden>
             <article class="account-profile-card account-profile-card-v2">
-              <div class="account-profile-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
               <div id="accountAvatar" class="account-profile-avatar">E</div>
-              <div class="account-profile-copy"><p class="account-kicker">ELYSIUM IDENTITY</p><h2 id="accountDisplayName">Telegram</h2><p id="accountUsername">Аккаунт Telegram</p><div class="account-profile-trust"><span></span>Защищённый профиль Shield</div></div>
+              <div class="account-profile-copy"><p class="account-kicker">ELYSIUM PROFILE</p><h2 id="accountDisplayName">Telegram</h2><p id="accountUsername">Аккаунт Telegram</p><div class="account-profile-trust"><span></span>Защищённый профиль Shield</div></div>
               <div id="accountProfileState" class="account-profile-state">Активен</div>
-              <button id="accountLogoutButton" class="account-logout-button" type="button">Выйти</button>
+              <button id="accountLogoutButton" class="account-logout-button" type="button">${glyph("logout", "account-logout-glyph")}<span>Выйти</span></button>
             </article>
 
             <section id="accountBlocked" class="account-blocked account-blocked-compact" hidden>
