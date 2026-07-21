@@ -195,28 +195,9 @@ function initHomepageMotion() {
     });
   });
 
-  const elements = document.querySelectorAll(".home-card, .staff-card, .team-section, .choice, .connect-card, .donate-card, .rule-card");
-  if (!elements.length) return;
-
-  if (!("IntersectionObserver" in window) || elysiumMotionMedia.matches) {
-    elements.forEach((element) => element.classList.add("is-visible"));
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      if (canUseElysiumMotion()) revealWithMotion(entry.target, Number(entry.target.dataset.motionOrder || 0));
-      else entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.08, rootMargin: "0px 0px -36px 0px" });
-
-  elements.forEach((element, index) => {
-    element.dataset.motionOrder = String(index % 3);
-    if (!canUseElysiumMotion()) element.classList.add("reveal-item");
-    observer.observe(element);
-  });
+  document
+    .querySelectorAll(".home-card, .staff-card, .team-section, .choice, .connect-card, .donate-card, .rule-card")
+    .forEach((element) => element.classList.add("is-visible"));
 }
 
 function initCardResponse() {

@@ -678,12 +678,10 @@ html.motion-enhanced .view, html.motion-enhanced .account-tab-panel { animation:
 .account-session-card { grid-template-columns: auto 1fr auto; }
 .account-session-card.current { border-color: rgba(85, 247, 166, .2); }
 
-.reveal-item { opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .45s ease; }
-.reveal-item.is-visible { opacity: 1; transform: none; }
-.motion-card { position: relative; isolation: isolate; transform-style: preserve-3d; transition: opacity .45s ease, transform .24s ease, border-color .24s ease, box-shadow .24s ease; }
+.motion-card { position: relative; isolation: isolate; transform-style: preserve-3d; transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease; }
 .motion-card::after { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(260px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(93, 226, 255, .11), transparent 68%); transition: opacity .22s ease; }
 .motion-card > * { position: relative; z-index: 1; }
-.motion-card.is-pointer-active, .reveal-item.is-visible.motion-card.is-pointer-active { transform: perspective(950px) translateY(-3px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); border-color: rgba(255, 255, 255, .17); box-shadow: 0 20px 46px rgba(0, 0, 0, .18), inset 0 1px rgba(255, 255, 255, .045); }
+.motion-card.is-pointer-active { transform: perspective(950px) translateY(-3px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); border-color: rgba(255, 255, 255, .17); box-shadow: 0 20px 46px rgba(0, 0, 0, .18), inset 0 1px rgba(255, 255, 255, .045); }
 .motion-card.is-pointer-active::after { opacity: 1; }
 .copy-toast { position: fixed; right: 20px; bottom: 20px; z-index: 3000; max-width: min(360px, calc(100vw - 40px)); padding: 13px 16px; border: 1px solid rgba(85, 247, 166, .28); border-radius: 12px; color: #dfffee; background: #101a17; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events: none; font-size: 11px; transition: .2s ease; }
 .copy-toast.show { opacity: 1; transform: none; }
@@ -847,7 +845,6 @@ html.motion-enhanced .view, html.motion-enhanced .account-tab-panel { animation:
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .reveal-item { opacity: 1; transform: none; }
   .network-path b { display: none; }
   .motion-card, .motion-card.is-pointer-active { transform: none; }
 }
